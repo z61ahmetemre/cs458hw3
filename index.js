@@ -16,12 +16,21 @@
 			});
 		
       	}
+		var x;
+		var y;
+		function getLocation() {
+			x = document.getElementById('Xcoor').value;
+			y = document.getElementById('Ycoor').value;
+			setTimeout(function(){
+    			where(x,y);
+			}, 2000);
+		}
 		
-		function where(){
+		function where( x, y){
 			var myDiv = document.getElementById("test");
 			var location = document.getElementById("location");
 			location.innerHTML = "Your location is unknown!" + document.getElementById("Xcoor").value + "---" + document.getElementById("Ycoor").value 	;
-			var myLL = new google.maps.LatLng( document.getElementById("Xcoor").value, document.getElementById("Ycoor").value);
+			var myLL = new google.maps.LatLng( x, y);
 			map = new google.maps.Map(document.getElementById('map'), {
           	center: myLL,
           	zoom: 8
@@ -41,6 +50,7 @@
 					alert('Geocode failed: ' + status);
 				}
 			});
+			
       	}
 		
 		
