@@ -50,7 +50,7 @@
 					alert('Geocode failed: ' + status);
 				}
 			});
-			
+			return 1;
       	}
 		
 		
