@@ -1,6 +1,13 @@
-var map;
+	    var map;
 		var geocoder;
 		var adress;
+		var currentLocationn;
+		var dst1;
+		var dst2;
+		var dst3;
+		var dst4;
+		var dst5;
+		
       	function initMap() {
 			geocoder = new google.maps.Geocoder();
         	map = new google.maps.Map(document.getElementById('map'), {
@@ -34,19 +41,16 @@ var map;
 					alert('Geocode failed: ' + status);
 				}
 			});
-			
       	}
 		
-		var currentLocationn;
+		
 		function currentLocation() {
 			var pos;
 			if (navigator.geolocation) {
 			  	navigator.geolocation.getCurrentPosition(function(position) {
 				pos = {lat: position.coords.latitude, lng: position.coords.longitude};
 				currentLocationn = pos;
-	//            infoWindow.setPosition(pos);
-	//            infoWindow.setContent('Location found.');
-	//            infoWindow.open(map);
+				
 				map.setCenter(pos);
 				var marker = new google.maps.Marker( {
 					map: map,
@@ -61,13 +65,8 @@ var map;
 			}
 		}
 		
-			var dst1;
-			var dst2;
-			var dst3;
-			var dst4;
-			var dst5;
+			
 	 function distanceToCity() {
-			var pos;
 			
 			var distanceService = new google.maps.DistanceMatrixService();
 			adressAnkara = {lat: 39.925533, lng: 32.866287};
@@ -85,8 +84,7 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
-                   //document.getElementById('location2').innerHTML= "You are far from the city center " + response.rows[0].elements[0].distance.text;
+					
 					dst1 = response.rows[0].elements[0].distance.text;
                 }
             });
@@ -107,8 +105,7 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
-                    //document.getElementById('location2').innerHTML= "You are far from the city center " + response.rows[0].elements[0].distance.text;
+					
 					dst2 = response.rows[0].elements[0].distance.text;
 				}
 			});
@@ -129,8 +126,6 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
-                    //document.getElementById('location2').innerHTML= "You are far from the city center " + response.rows[0].elements[0].distance.text;
 					dst3 = response.rows[0].elements[0].distance.text;
 				}
 			});
@@ -151,8 +146,7 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
-                    //document.getElementById('location2').innerHTML= "You are far from the city center " + response.rows[0].elements[0].distance.text;
+					
 					dst4 = response.rows[0].elements[0].distance.text;
 				}
 			});
@@ -173,8 +167,7 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
-                    //document.getElementById('location2').innerHTML= "You are far from the city center " + response.rows[0].elements[0].distance.text;
+					
 					dst5 = response.rows[0].elements[0].distance.text;
 				}
 			});
@@ -194,21 +187,20 @@ var map;
 			//calculateNearest();
 		}
 		
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+		infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
-      }	
+     }	
 		
 		
-		function distanceToEarth() {
-//			currentLocation();
-//			setTimeout( 3000);
-		    var distanceService = new google.maps.DistanceMatrixService();
+	function distanceToEarth() {
+		
+		var distanceService = new google.maps.DistanceMatrixService();
 			var adress2 = {lat: 37.688, lng: 35.438};
-        distanceService.getDistanceMatrix({
+			distanceService.getDistanceMatrix({
                 origins: [adress2],
                 destinations: [currentLocationn],
                 travelMode: "DRIVING",
@@ -222,7 +214,7 @@ var map;
                     console.log('Error:', status);
                 } else {
                     console.log(response);
-                   //=======================Our Text View Where i Display Distance and Time Values===================
+					
                     document.getElementById('location3').innerHTML="You are far from the earth center " + response.rows[0].elements[0].distance.text;
 
                 }
