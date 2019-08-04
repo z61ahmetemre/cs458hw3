@@ -94,51 +94,33 @@
 				distanceToCity( arrAddress[4], 4);
 				
 			},2000);
-			calculateNearest();
+			setTimeout(function(){
+				calculateNearest();
+			},2000);
 		}
 		function distanceToCity(addresses,index) {
+				
+				var distanceService = new google.maps.DistanceMatrixService();
+				
+				distanceService.getDistanceMatrix({
+					origins: [addresses],
+					destinations: [currentLocationn],
+					travelMode: "DRIVING",
+					unitSystem: google.maps.UnitSystem.METRIC,
+					durationInTraffic: true,
+					avoidHighways: false,
+					avoidTolls: false
+				},
+				function (response, status) {
+					if (status !== google.maps.DistanceMatrixStatus.OK) {
+						console.log('Error:', status);
+					} else {
+						console.log(response);
+						
+						dsts[index] = response.rows[0].elements[0].distance.text;
+					}
+				});
 			
-			var distanceService = new google.maps.DistanceMatrixService();
-			
-        	distanceService.getDistanceMatrix({
-                origins: [addresses],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					
-					dsts[index] = response.rows[0].elements[0].distance.text;
-                }
-            });
-			//*********************************************************
-			distanceService = new google.maps.DistanceMatrixService();
-			
-        	distanceService.getDistanceMatrix({
-                origins: [adressIstanbul],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					
-					dst2 = response.rows[0].elements[0].distance.text;
-				}
-			});
 		}
 		
 		function calculateNearest() {
