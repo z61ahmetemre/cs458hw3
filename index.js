@@ -20,14 +20,18 @@
 		var x;
 		var y;
 		function getLocation() {
+			var success = -1;
 			x = document.getElementById('Xcoor').value;
 			y = document.getElementById('Ycoor').value;
 			setTimeout(function(){
     			where(x,y);
+				success = 1;
 			}, 2000);
+			return success;
 		}
 		
 		function where( x, y){
+			var success = -1;
 			var myDiv = document.getElementById("test");
 			var location = document.getElementById("location");
 			location.innerHTML = "Your location is unknown!" + document.getElementById("Xcoor").value + "---" + document.getElementById("Ycoor").value 	;
@@ -47,16 +51,19 @@
 					map: map,
             		position: results[0].geometry.location
 					});
+					success = 1;
 				} else {
+					success = 0;
 					alert('Geocode failed: ' + status);
 				}
 			});
-			return 1;
+			return success;
       	}
-		
+		 
 		
 		function currentLocation() {
 			var pos;
+			var success = -1;
 			if (navigator.geolocation) {
 			  	navigator.geolocation.getCurrentPosition(function(position) {
 				pos = {lat: position.coords.latitude, lng: position.coords.longitude};
@@ -70,10 +77,13 @@
 			   }, function() {
 				handleLocationError(true, infoWindow, map.getCenter());
 			   });
+			   success = 1;
 			} else {
 			  // Browser doesn't support Geolocation
+			  success = 0;
 			  handleLocationError(false, infoWindow, map.getCenter());
 			}
+			return success;
 		}
 		
 		adressAnkara = {lat: 39.925533, lng: 32.866287};
@@ -86,6 +96,7 @@
 		var dsts = [ dst1, dst2, dst3, dst4, dst5];
 		
 		function calculateDistanceTocity() {
+			var success = 0;
 			setTimeout(function() {
 				distanceToCity( arrAddress[0], 0);
 				distanceToCity( arrAddress[1], 1);
@@ -96,10 +107,13 @@
 			},2000);
 			setTimeout(function(){
 				calculateNearest();
+				success = 1;
 			},2000);
+			return success;
 		}
+
 		function distanceToCity(addresses,index) {
-				
+				var success = -1;
 				var distanceService = new google.maps.DistanceMatrixService();
 				
 				distanceService.getDistanceMatrix({
@@ -114,22 +128,25 @@
 				function (response, status) {
 					if (status !== google.maps.DistanceMatrixStatus.OK) {
 						console.log('Error:', status);
+						success = 0;
 					} else {
 						console.log(response);
-						
+						success = 1;
 						dsts[index] = response.rows[0].elements[0].distance.text;
 					}
 				});
-			
+			return success;
 		}
 		
 		function calculateNearest() {
+			var success = 0;
 			setTimeout(function(){
     			//do what you need here
 				dsts.sort();
 				document.getElementById('location2').innerHTML = "You are far from the city center " + dsts[0];
-				//alert(dsts[0]);
+				success = 1;
 			}, 2000);
+			return success;
 		}
 			
 		
@@ -144,9 +161,9 @@
 			
 		
 		function distanceToEarth() {
-			
+			var success = -1;
 			var distanceService = new google.maps.DistanceMatrixService();
-			var adress2 = {lat: 37.688, lng: 35.438};
+			var adress2 = {lat: 40.552750, lng: 34.959420};
 			distanceService.getDistanceMatrix({
 				origins: [adress2],
 				destinations: [currentLocationn],
@@ -159,11 +176,15 @@
 				function (response, status) {
 					if (status !== google.maps.DistanceMatrixStatus.OK) {
 						console.log('Error:', status);
+						success = 0;
 					} else {
 						console.log(response);
 						
 						document.getElementById('location3').innerHTML="You are far from the earth center " + response.rows[0].elements[0].distance.text;
-
+						success = 1;
 					}
 				});
+				return success;
 		}
+
+   module.exports = { getLocation, where, currentLocation, calculateDistanceTocity, calculateNearest, distanceToCity, distanceToEarth};
