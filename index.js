@@ -16,6 +16,7 @@
 			});
 		
       	}
+		
 		var x;
 		var y;
 		function getLocation() {
@@ -75,13 +76,32 @@
 			}
 		}
 		
-			
-	 function distanceToCity() {
+		adressAnkara = {lat: 39.925533, lng: 32.866287};
+		adressIstanbul = {lat: 41.015137, lng: 28.979530};
+		adressEskisehir = {lat: 39.766193, lng: 30.526714};
+		adressTrabzon = {lat: 41.002697, lng: 39.716763};
+		adressAdana = {lat: 37.000000, lng: 35.321335};
+		
+		var arrAddress = [adressAnkara, adressIstanbul, adressEskisehir, adressTrabzon, adressAdana];
+		var dsts = [ dst1, dst2, dst3, dst4, dst5];
+		
+		function calculateDistanceTocity() {
+			setTimeout(function() {
+				distanceToCity( arrAddress[0], 0);
+				distanceToCity( arrAddress[1], 1);
+				distanceToCity( arrAddress[2], 2);
+				distanceToCity( arrAddress[3], 3);
+				distanceToCity( arrAddress[4], 4);
+				
+			},2000);
+			calculateNearest();
+		}
+		function distanceToCity(addresses,index) {
 			
 			var distanceService = new google.maps.DistanceMatrixService();
-			adressAnkara = {lat: 39.925533, lng: 32.866287};
+			
         	distanceService.getDistanceMatrix({
-                origins: [adressAnkara],
+                origins: [addresses],
                 destinations: [currentLocationn],
                 travelMode: "DRIVING",
                 unitSystem: google.maps.UnitSystem.METRIC,
@@ -95,12 +115,12 @@
                 } else {
                     console.log(response);
 					
-					dst1 = response.rows[0].elements[0].distance.text;
+					dsts[index] = response.rows[0].elements[0].distance.text;
                 }
             });
 			//*********************************************************
 			distanceService = new google.maps.DistanceMatrixService();
-			adressIstanbul = {lat: 41.015137, lng: 28.979530};
+			
         	distanceService.getDistanceMatrix({
                 origins: [adressIstanbul],
                 destinations: [currentLocationn],
@@ -119,114 +139,49 @@
 					dst2 = response.rows[0].elements[0].distance.text;
 				}
 			});
-			//*********************************************************
-			distanceService = new google.maps.DistanceMatrixService();
-			adressEskisehir = {lat: 39.766193, lng: 30.526714};
-        	distanceService.getDistanceMatrix({
-                origins: [adressEskisehir],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					dst3 = response.rows[0].elements[0].distance.text;
-				}
-			});
-			//*********************************************************
-			distanceService = new google.maps.DistanceMatrixService();
-			adressTrabzon = {lat: 41.002697, lng: 39.716763};
-        	distanceService.getDistanceMatrix({
-                origins: [adressTrabzon],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					
-					dst4 = response.rows[0].elements[0].distance.text;
-				}
-			});
-			//*********************************************************
-			distanceService = new google.maps.DistanceMatrixService();
-			adressAdana = {lat: 37.000000, lng: 35.321335};
-        	distanceService.getDistanceMatrix({
-                origins: [adressAdana],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					
-					dst5 = response.rows[0].elements[0].distance.text;
-				}
-			});
-			
-			//Ankara 	39.925533,	32.866287
-			//Ýstanbul	41.015137,	28.979530
-			//Eskiþehir 39.766193,	30.526714
-			//Trabzon	41.002697,	39.716763
-			//Adana 	37.000000,	35.321335
+		}
+		
+		function calculateNearest() {
 			setTimeout(function(){
     			//do what you need here
-				var dsts = [ dst1, dst2, dst3, dst4, dst5];
 				dsts.sort();
 				document.getElementById('location2').innerHTML = "You are far from the city center " + dsts[0];
 				//alert(dsts[0]);
 			}, 2000);
-			//calculateNearest();
 		}
-		
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-     }	
+			
 		
 		
-	function distanceToEarth() {
+		function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			infoWindow.setPosition(pos);
+			infoWindow.setContent(browserHasGeolocation ?
+								  'Error: The Geolocation service failed.' :
+								  'Error: Your browser doesn\'t support geolocation.');
+			infoWindow.open(map);
+		}	
+			
 		
-		var distanceService = new google.maps.DistanceMatrixService();
+		function distanceToEarth() {
+			
+			var distanceService = new google.maps.DistanceMatrixService();
 			var adress2 = {lat: 37.688, lng: 35.438};
 			distanceService.getDistanceMatrix({
-                origins: [adress2],
-                destinations: [currentLocationn],
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC,
-                durationInTraffic: true,
-                avoidHighways: false,
-                avoidTolls: false
-            },
-            function (response, status) {
-                if (status !== google.maps.DistanceMatrixStatus.OK) {
-                    console.log('Error:', status);
-                } else {
-                    console.log(response);
-					
-                    document.getElementById('location3').innerHTML="You are far from the earth center " + response.rows[0].elements[0].distance.text;
+				origins: [adress2],
+				destinations: [currentLocationn],
+				travelMode: "DRIVING",
+				unitSystem: google.maps.UnitSystem.METRIC,
+				durationInTraffic: true,
+				avoidHighways: false,
+				avoidTolls: false
+				},
+				function (response, status) {
+					if (status !== google.maps.DistanceMatrixStatus.OK) {
+						console.log('Error:', status);
+					} else {
+						console.log(response);
+						
+						document.getElementById('location3').innerHTML="You are far from the earth center " + response.rows[0].elements[0].distance.text;
 
-                }
-            });
+					}
+				});
 		}

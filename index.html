@@ -20,44 +20,40 @@
     </style>
 
 </head>
-  <body>
-    
-    <div id="test" src="index.js"> 
-     
-        
-		<form>
-			CoordinateX:<br>
-			 <input type="text" id="Xcoor" name="Xcoor"> <br>
-			 CoordinateY:<br>
-		  <input type="text" id="Ycoor" name="Ycoor"> <br>
-		</form>
-		 <form>
-			 <input type="button" onClick="where()" value="Where am I?" />
-		</form>
-	  <p id="location" > Your location is </p>
-		<p id="current">For your devices location click </p>
-		<form>
-			 <input type="button" onClick="currentLocation()" value="Get current location" />
-		</form>
-		<p>Please click "Get Current Location" button before clicking "How far..." buttons.</p>
-		<p>Click the button and see how far you away from the nearest city center. </p>
-		<form>
-			 <input type="button" onClick="distanceToCity()" value="How far I am to the nearest city center?" />
-		</form>
-	  <p id="location2" > You are far from the city center </p>
-		<form>
-			 <input type="button" onClick="distanceToEarth()" value="How far I am to the earth center?" />
-		</form>
-	  <p id="location3" > You are far from the earth center </p>
-    </div>
-	
-    <div id="map"></div>
-    <script src="index.js">
+	<body>
 		
+		<div id="test" src="index.js"> 
+			<form>
+				CoordinateX:<br>
+				 <input type="text" id="Xcoor" name="Xcoor"> <br>
+				CoordinateY:<br>
+				<input type="text" id="Ycoor" name="Ycoor"> <br>
+			</form>
+			<form>
+				 <input type="button" onClick="where()" value="Where am I?" />
+			</form>
+			<p id="location" > Your location is </p>
+			<p id="current">For your devices location click </p>
+			<form>
+				<input type="button" onClick="currentLocation()" value="Get current location" />
+			</form>
+			<p>Please click "Get Current Location" button before clicking "How far..." buttons.</p>
+			<p>Click the button and see how far you away from the nearest city center. </p>
+			<form>
+				<input type="button" onClick="distanceToCity()" value="How far I am to the nearest city center?" />
+			</form>
+			<p id="location2" > You are far from the city center </p>
+			<form>
+				<input type="button" onClick="distanceToEarth()" value="How far I am to the earth center?" />
+			</form>
+			<p id="location3" > You are far from the earth center </p>
+		</div>
 		
-    </script>
-    
-  </body>
+		<div id="map"></div>
+		<script src="index.js">
+		</script>
+		
+	</body>
   
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPqzTmmI91gFNPWoWloQE6Kg1PZ2fTZMQ&libraries=places&key=AIzaSyAPqzTmmI91gFNPWoWloQE6Kg1PZ2fTZMQ&callback=initMap"
     async defer></script>
